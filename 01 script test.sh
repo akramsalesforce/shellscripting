@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-Echo "script started boss"
+Echo -e "script \n started \t  boss"
