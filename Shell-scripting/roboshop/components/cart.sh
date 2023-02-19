@@ -5,6 +5,6 @@ a="abc"
 if (($a == "abc"))
 
 then
-    echo "value macthed"
+    echo "value matches"
 
 fi
