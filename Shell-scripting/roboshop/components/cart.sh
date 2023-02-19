@@ -2,9 +2,11 @@ echo cart component
 
 a="abc"
 
-if (($a == "abc"))
+if (($a == "abcd"))
 
 then
-    echo "value macthed"
+    echo "value matches"
+else
+  echo "different values"
 
 fi
