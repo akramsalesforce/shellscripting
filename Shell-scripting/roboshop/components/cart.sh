@@ -1,9 +1,9 @@
 echo cart component
 
-a="test"
+a="test1"
 
-if [ "$a" == "perfect" ];then
-    echo "else block"
+if [ "$a" == "perfect" ] || [ "$a" == "test1" ]; then
+    echo "well done or condition "
 elif [ "$a" == "test" ] ; then
     echo "else if block"
 else
