@@ -1,4 +1,4 @@
 Front-end:
-    bash components/Front-end.sh
-crat:
-    bash components/cart.sh
+	bash components/Front-end.bash
+cart:
+	bash components/cart.sh
