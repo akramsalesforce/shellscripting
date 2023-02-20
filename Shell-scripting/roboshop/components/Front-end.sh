@@ -19,7 +19,7 @@ cd /usr/share/nginx/html
 
 print "Extracting Archive"
 
- unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* .  &>>$LOG_FILE && MV static/* . &>>$LOG_FILE
+ unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* . &>>$LOG_FILE && MV static/* . &>>$LOG_FILE
 
 statcheck $?
 
@@ -29,9 +29,9 @@ mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
 
  print "starting nginx service"
 
- systemctl start nginx &>>$LOG_FILE
+
+systemctl start nginx && systemctl enable nginx &>>$LOG_FILE
 statcheck $?
-systemctl enable nginx
 
 
 
