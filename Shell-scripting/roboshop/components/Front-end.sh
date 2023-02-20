@@ -17,14 +17,14 @@ rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
 
 cd /usr/share/nginx/html
 
-print "Extracting Arachive"
+print "Extracting Archive"
 
- unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* . &>>$LOG_FILE && MV static/* . &>>$LOG_FILE
+ unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* .  &>>$LOG_FILE && MV static/*  &>>$LOG_FILE
 
 statcheck $?
 
 print "updating the config file"
- mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
+mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
  statcheck $?
 
  print "starting nginx service"
