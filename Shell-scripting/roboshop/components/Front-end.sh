@@ -27,9 +27,12 @@ statcheck $?
 print "configuring catalogue "
 
 for comp in catalogue  user cart ;do
+
+  print -e "updating ${comp}"
 sed -i -e "/${comp}/s/localhost/${comp}.roboshop.intarnet/"  frontend-main/localhost.conf &>>$LOG_FILE
-done
 statcheck $?
+done
+
 
 
 print "updating the config file"
