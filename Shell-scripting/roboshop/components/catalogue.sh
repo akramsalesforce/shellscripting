@@ -10,19 +10,19 @@ yum install nodejs gcc-c++ -y &>>$LOG_FILE
 statcheck $?
 
 
-print "Create application user"
+
 
 id ${APP_USER} &>>$LOG_FILE
 
 if [ "$?" -ne 0 ]; then
-   print "User doesnt exist adding user ------>"
+  print "Create application user"
+   print "User doesnt exist adding user ------>\n"
   useradd ${APP_USER} &>>$LOG_FILE
-statcheck $?
+
 else
   print "User already exist  ------>"
-  exist 3
-
 fi
+statcheck $?
 
 print "download app component"
 curl -f -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/catalogue/archive/main.zip" &>>$LOG_FILE
