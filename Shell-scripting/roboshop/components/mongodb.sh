@@ -18,17 +18,17 @@ curl -f -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mo
 statcheck $?
 
 print "Extract schema"
-cd /tmp && unzip mongodb.zip -o &>>$LOG_FILE
+cd /tmp && unzip -o mongodb.zip  &>>$LOG_FILE
 statcheck $?
 
 print "Load schema"
 cd /tmp/mongodb-main
+statcheck $?
+
 
 #&& mongo < catalogue.js &>>$LOG_FILE
 #&& mongo < users.js &>>$LOG_FILE
-statcheck $?
 
-#mongo < myjstest.js
 print "start mongoDB"
 systemctl start mongod && systemctl enable mongod &>>$LOG_FILE
 statcheck $?
