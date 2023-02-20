@@ -1,11 +1,7 @@
-echo cart component
+source components/Common.sh
 
-a="test1"
+Calluser=cart
 
-if [ "$a" == "perfect" ] || [ "$a" == "test1" ]; then
-    echo "well done or condition "
-elif [ "$a" == "test" ] ; then
-    echo "else if block"
-else
-  echo "final block"
-fi
+# calling common function
+
+Nodejs
