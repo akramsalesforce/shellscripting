@@ -39,3 +39,6 @@ print "Install app dependency"
 cd /home/${APP_USER}/catalogue  && npm install &>>$LOG_FILE
 statcheck $?
 
+print "File permission for user"
+chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}   &>>$LOG_FILE
+statcheck $?
