@@ -24,15 +24,17 @@ print "Extracting Archive"
 
 statcheck $?
 
+print "configuring catalogue "
+
+sed -i -e "/catalogue/s/localhost/catalogue.roboshop.intarnet/" frontend-main/localhost.conf &>>$LOG_FILE
+
+statcheck $?
+
+
 print "updating the config file"
 mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
  statcheck $?
 
-print "configuring catalogue "
-
-sed -i -e "/catalogue/s/localhost/catalogue.roboshop.intarnet/" frontend-main/localhost.conf &>>$LOG_FILE && mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
-
-statcheck $?
 
  print "starting nginx service"
 systemctl start nginx && systemctl enable nginx &>>$LOG_FILE
