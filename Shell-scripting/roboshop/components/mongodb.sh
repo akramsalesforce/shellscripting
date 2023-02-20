@@ -22,12 +22,8 @@ cd /tmp && unzip -o mongodb.zip  &>>$LOG_FILE
 statcheck $?
 
 print "Load schema"
-cd /tmp/mongodb-main
+cd mongodb-main && mongo < catalogue.js &>>$LOG_FILE && mongo < users.js &>>$LOG_FILE
 statcheck $?
-
-
-#&& mongo < catalogue.js &>>$LOG_FILE
-#&& mongo < users.js &>>$LOG_FILE
 
 print "start mongoDB"
 systemctl start mongod && systemctl enable mongod &>>$LOG_FILE
