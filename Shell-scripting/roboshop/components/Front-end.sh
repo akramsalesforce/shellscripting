@@ -2,10 +2,10 @@
 source components/Common.sh
 
 print "install nginx"
-yum install nginx -y
+yum install nginx -y &>>$LOG_FILE
 statcheck $?
 
-print "downloading the HTDOCS content and deploy under the Nginx path " &>>$LOG_FILE
+print "downloading the HTDOCS content and deploy under the Nginx path "
 curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip" &>>$LOG_FILE
 statcheck $?
 
