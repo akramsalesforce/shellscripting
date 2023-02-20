@@ -26,8 +26,9 @@ statcheck $?
 
 print "configuring catalogue "
 
-sed -i -e "/catalogue/s/localhost/catalogue.roboshop.intarnet/" -e "/user/s/localhost/user.roboshop.intarnet/" -e "/cart/s/localhost/cart.roboshop.intarnet/"  frontend-main/localhost.conf &>>$LOG_FILE
-
+for comp in catalogue  user cart ;do
+sed -i -e "/${comp}/s/localhost/${comp}.roboshop.intarnet/"  frontend-main/localhost.conf &>>$LOG_FILE
+done
 statcheck $?
 
 
