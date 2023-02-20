@@ -86,7 +86,7 @@ Nodejs(){
 
 
   print "configure MongoBD"
-  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet/' /home/${APP_USER}/ ${Calluser}/systemd.service  &>>$LOG_FILE && mv /home/${APP_USER}/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
+  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet/' /home/${APP_USER}/${Calluser}/systemd.service  &>>$LOG_FILE && mv /home/${APP_USER}/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
   statcheck $?
 
   print "start user"
