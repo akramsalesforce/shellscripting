@@ -1,3 +1,4 @@
+
 source components/Common.sh
 
 print "Downloading MongoDB package"
@@ -15,7 +16,7 @@ Stat_check $?
 
 print "Download schema"
 
-curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" &>>$LOG_FILENAME
+curl -f -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" &>>$LOG_FILENAME
 Stat_check $?
 
 cd /tmp
