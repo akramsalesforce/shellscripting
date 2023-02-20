@@ -2,6 +2,7 @@
 source components/redis.sh
 
 print "setup redis yum repo"
+
 curl -f -L "https://raw.githubusercontent.com/roboshop-devops-project/redis/main/redis.repo" -o /etc/yum.repos.d/redis.repo &>>$LOG_FILE
 statcheck $?
 
