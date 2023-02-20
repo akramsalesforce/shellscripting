@@ -1,7 +1,7 @@
 source components/Common.sh
 
 print "Downloading MongoDB package"
-curl -f -s -o /etc/yum.repos.d/mongodb.repo https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo &>>$LOG_FILENAME
+curl -f -s -o /etc/yum.repos.d/mongodb.repo "https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo" &>>$LOG_FILENAME
 Stat_check $?
 
 Print "Installing Mongo DB on server"
@@ -9,7 +9,7 @@ yum install -y mongodb-org &>>$LOG_FILENAME
 Stat_check $?
 
 Print "Updating mongod Config file"
-sed 's/127.0.0.1/0.0.0.0' /etc/mongod.conf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 Stat_check $?
 
 
