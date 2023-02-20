@@ -9,9 +9,9 @@ print "install nodejs"
 yum install nodejs gcc-c++ -y &>>$LOG_FILE
 statcheck $?
 
-User=Roboshop
+
 print "Create application user"
-useradd $User &>>$LOG_FILE
+useradd ${APP_USER} &>>$LOG_FILE
 statcheck $?
 
 print "download app component"
@@ -19,13 +19,13 @@ curl -f -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/
 statcheck $?
 
 print "cleanup old content"
-rm -rf /home/$User/catalogue &>>$LOG_FILE
+rm -rf /home/${APP_USER}/catalogue &>>$LOG_FILE
 statcheck $?
 print "App content"
-cd /home/$User unzip -o /tmp/catalogue.zip &>>$LOG_FILE && mv catalogue-main catalogue &>>$LOG_FILE
+cd /home/${APP_USER} unzip -o /tmp/catalogue.zip &>>$LOG_FILE && mv catalogue-main catalogue &>>$LOG_FILE
 statcheck $?
 
 print "Install app dependency"
-cd /home/$User/catalogue &>>$LOG_FILE && npm install &>>$LOG_FILE
+cd /home/${APP_USER}/catalogue &>>$LOG_FILE && npm install &>>$LOG_FILE
 statcheck $?
 
