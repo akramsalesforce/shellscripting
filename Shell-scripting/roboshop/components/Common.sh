@@ -86,7 +86,7 @@ Nodejs(){
 
 
   print "configure MongoBD and redis"
-  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.intarnet/' -e 's/REDIS_ENDPOINT/redis.roboshop.intarnet/' /home/${APP_USER}/${Calluser}/systemd.service  &>>$LOG_FILE && mv /home/${APP_USER}/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
+  sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet/' -e 's/MONGO_ENDPOINT/mongodb.roboshop.intarnet/' -e 's/REDIS_ENDPOINT/redis.roboshop.intarnet/' -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.intarnet/' /home/${APP_USER}/${Calluser}/systemd.service  &>>$LOG_FILE && mv /home/${APP_USER}/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
   statcheck $?
 
 
