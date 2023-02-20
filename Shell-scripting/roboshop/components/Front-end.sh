@@ -1,7 +1,7 @@
 
 source components/Common.sh
 
-print "install nginx"
+print " install nginx "
 yum install nginx -y &>>$LOG_FILE
 statcheck $?
 
