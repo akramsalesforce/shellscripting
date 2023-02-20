@@ -19,13 +19,13 @@ curl -f -s -L -o /tmp/catalogue.zip "https://github.com/roboshop-devops-project/
 statcheck $?
 
 print "cleanup old content"
-rm -rf /home/roboshop/catalogue &>>$LOG_FILE
+rm -rf /home/Roboshop/catalogue &>>$LOG_FILE
 statcheck $?
 print "App content"
-cd /home/roboshop  unzip -o /tmp/catalogue.zip &>>$LOG_FILE && mv catalogue-main catalogue &>>$LOG_FILE
+cd /home/Roboshop  unzip -o /tmp/catalogue.zip &>>$LOG_FILE && mv catalogue-main catalogue &>>$LOG_FILE
 statcheck $?
 
 print "Install app dependency"
-cd /home/roboshop/catalogue &>>$LOG_FILE && npm install &>>$LOG_FILE
+cd /home/Roboshop/catalogue &>>$LOG_FILE && npm install &>>$LOG_FILE
 statcheck $?
 
