@@ -92,7 +92,7 @@ Nodejs(){
 
   print "start user"
 
-  systemctl daemon-reload &>>$LOG_FILE && systemctl start  ${Calluser} &>>$LOG_FILE && systemctl enable  ${Calluser} &>>$LOG_FILE
+  systemctl daemon-reload &>>$LOG_FILE && systemctl start ${Calluser} &>>$LOG_FILE && systemctl enable ${Calluser} &>>$LOG_FILE
 
   statcheck $?
 
