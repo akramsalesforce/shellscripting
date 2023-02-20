@@ -19,7 +19,8 @@ cd /usr/share/nginx/html
 
 print "Extracting Archive"
 
- unzip /tmp/frontend.zip &>>$LOG_FILE && mv /frontend-main/* . &>>$LOG_FILE && MV /static/* . &>>$LOG_FILE
+ unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/static/* . &>>$LOG_FILE
+ #&& MV /static/* . &>>$LOG_FILE
 
 statcheck $?
 
