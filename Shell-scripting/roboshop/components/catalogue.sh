@@ -26,6 +26,6 @@ cd /home/${APP_USER} unzip -o /tmp/catalogue.zip &>>$LOG_FILE && mv catalogue-ma
 statcheck $?
 
 print "Install app dependency"
-cd /home/${APP_USER}/catalogue &>>$LOG_FILE && npm install &>>$LOG_FILE
+cd /home/${APP_USER}/catalogue  && npm install &>>$LOG_FILE
 statcheck $?
 
