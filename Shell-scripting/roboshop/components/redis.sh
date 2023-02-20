@@ -12,7 +12,7 @@ statcheck $?
 
 if [ -f /etc/redis.conf ]; then
   print "updating redis config file"
-  sed -i -e '/s/127.0.0.1/0.0.0.0/'  /etc/redis.conf
+  sed -i -e 's/127.0.0.1/0.0.0.0/'  /etc/redis.conf
 
   else
     print "file doesn't exit"
@@ -20,7 +20,7 @@ if [ -f /etc/redis.conf ]; then
 statcheck $?
 if [ -f /etc/redis/redis.conf ]; then
   print "updating redis config file"
-  sed -i -e '/s/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
+  sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
   else
     print "file doesn't exit"
   fi
