@@ -4,11 +4,11 @@ statcheck(){
 # check the status of last excuted command
 if  [ $1 -eq 0 ]; then
 
-  echo -e "\e[35m Success \e[0m"
+  echo -e "\e[35mSuccess\e[0m"
 
 else
 
-  echo -e "\e[35mFailure \e[0m"
+  echo -e "\e[35mFailure\e[0m"
 
 exit 2
 fi
