@@ -45,5 +45,5 @@ statcheck $?
 
 
 print "configure MongoBD"
-sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet' /home/roboshop/catalogue/systemd.service  &>>$LOG_FILE
+sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet' /home/${APP_USER}/catalogue/systemd.service  &>>$LOG_FILE
 statcheck $?
