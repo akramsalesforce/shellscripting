@@ -1,4 +1,4 @@
-#!/bin/bash
+
 source components/redis.sh
 
 print "setup redis yum repo"
