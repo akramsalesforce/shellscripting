@@ -1,5 +1,5 @@
-#!/bin/bash
-source components/redis.sh
+
+source components/Common.sh
 
 print "setup redis yum repo"
 
