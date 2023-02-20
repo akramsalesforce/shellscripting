@@ -5,7 +5,7 @@ print " install nginx "
 yum install nginx -y &>>$LOG_FILE
 statcheck $?
 
-print "downloading the HTDOCS content and deploy under the Nginx path "
+print "downloading  Nginx path "
 curl -f -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip" &>>$LOG_FILE
 statcheck $?
 
