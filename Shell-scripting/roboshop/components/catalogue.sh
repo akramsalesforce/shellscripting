@@ -11,7 +11,7 @@ statcheck $?
 
 User=Roboshop
 print "Create application user"
-useradd $($User) &>>$LOG_FILE
+useradd $User &>>$LOG_FILE
 statcheck $?
 
 print "download app component"
