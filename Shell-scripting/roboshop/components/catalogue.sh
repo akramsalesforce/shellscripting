@@ -42,3 +42,8 @@ statcheck $?
 print "File permission for user"
 chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}   &>>$LOG_FILE
 statcheck $?
+
+
+print "configure MongoBD"
+sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet' /home/roboshop/catalogue/systemd.service  &>>$LOG_FILE
+statcheck $?
