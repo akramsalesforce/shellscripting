@@ -23,12 +23,12 @@ statcheck $?
 
 print "Load schema"
 cd /tmp/mongodb-main
+statcheck $?
+
 
 #&& mongo < catalogue.js &>>$LOG_FILE
 #&& mongo < users.js &>>$LOG_FILE
-statcheck $?
 
-#mongo < myjstest.js
 print "start mongoDB"
 systemctl start mongod && systemctl enable mongod &>>$LOG_FILE
 statcheck $?
