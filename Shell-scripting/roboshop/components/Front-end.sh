@@ -30,7 +30,8 @@ mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
 
 print "configuring catalogue "
 
-sed -i -e "/catalogue/s/localhost/catalogue.roboshop.intarnet/" /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
+sed -i -e "/catalogue/s/localhost/catalogue.roboshop.intarnet/" frontend-main/localhost.conf &>>$LOG_FILE && mv frontend-main/localhost.conf /etc/nginx/default.d/roboshop.conf &>>$LOG_FILE
+
 statcheck $?
 
  print "starting nginx service"
