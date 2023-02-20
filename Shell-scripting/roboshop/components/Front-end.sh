@@ -12,14 +12,14 @@ statcheck $?
 print "cleanup old nginx content"
 
 rm -rf /usr/share/nginx/html/* &>>$LOG_FILE
-
+statcheck $?
 
 
 cd /usr/share/nginx/html
 
 print "Extracting Archive"
 
- unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* .  &>>$LOG_FILE && MV static/*  &>>$LOG_FILE
+ unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* .  &>>$LOG_FILE && MV static/* . &>>$LOG_FILE
 
 statcheck $?
 
