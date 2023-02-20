@@ -3,20 +3,20 @@ source components/Common.sh
 
 print "Downloading MongoDB package"
 curl -f -s -o /etc/yum.repos.d/mongodb.repo "https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo" &>>$LOG_FILENAME
-Stat_check $?
+statcheck $?
 
 Print "Installing Mongo DB on server"
 yum install -y mongodb-org &>>$LOG_FILENAME
-Stat_check $?
+statcheck $?
 
 Print "Updating mongod Config file"
 sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf
-Stat_check $?
+
 
 print "Download schema"
 
 curl -f -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" &>>$LOG_FILENAME
-Stat_check $?
+statcheck $?
 
 cd /tmp
 
