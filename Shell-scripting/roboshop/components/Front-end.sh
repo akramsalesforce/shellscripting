@@ -19,7 +19,7 @@ cd /usr/share/nginx/html
 
 print "Extracting Arachive"
 
- unzip /tmp/frontend.zip && mv frontend-main/* . && MV static/* . &>>$LOG_FILE
+ unzip /tmp/frontend.zip &>>$LOG_FILE && mv frontend-main/* . &>>$LOG_FILE && MV static/* . &>>$LOG_FILE
 
 statcheck $?
 
