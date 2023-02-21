@@ -1,148 +1,118 @@
-#!/bin/bash
 
-statcheck(){
-# check the status of last excuted command
-if  [ $1 -eq 0 ]; then
 
-  echo -e "\e[35m Success \e[0m"
+statCheck() {
+  if [ $1 -eq 0 ]; then
+    echo -e "\e[32mSUCCESS\e[0m"
+  else
+    echo -e "\e[31mFAILURE\e[0m"
+    exit 2
+  fi
+}
 
-else
-
-  echo -e "\e[35m Failure \e[0m"
-
-exit 2
-fi
-
+print() {
+  echo -e "\n --------------------- $1 ----------------------" &>>$LOG_FILE
+  echo -e "\e[36m $1 \e[0m"
 }
 
 USER_ID=$(id -u)
-{
-
-if [ "$USER_ID" -ne 0 ];then
-
-echo you should run your script as sudo or root user
-
-exit 1
-
+if [ "$USER_ID" -ne 0 ]; then
+  echo You should run your script as sudo or root user
+  exit 1
 fi
-}
-
-print(){
-
-echo -e "\n------------------------$1-----------------" &>>$LOG_FILE
-echo -e "\e[36m $1 \e[0m"
-
-}
-
 LOG_FILE=/tmp/roboshop.log
-
 rm -f $LOG_FILE
 
 APP_USER=roboshop
-App_user_funcation(){
 
+APP_SETUP() {
+  id ${APP_USER} &>>${LOG_FILE}
+  if [ $? -ne 0 ]; then
+    print "Add Application User"
+    useradd ${APP_USER} &>>${LOG_FILE}
+    statCheck $?
+  fi
+  print "Download App Component"
+  curl -f -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
+  statCheck $?
 
+  print "CleanUp Old Content"
+  rm -rf /home/${APP_USER}/${COMPONENT} &>>${LOG_FILE}
+  statCheck $?
 
-   id ${APP_USER} &>>$LOG_FILE
+  print "Extract App Content"
+  cd /home/${APP_USER} &>>${LOG_FILE} && unzip -o /tmp/${COMPONENT}.zip &>>${LOG_FILE} && mv ${COMPONENT}-main ${COMPONENT} &>>${LOG_FILE}
+  statCheck $?
+}
 
-    if [ "$?" -ne 0 ]; then
-      print "Create application user"
-      print "User doesnt exist adding user ------>\n"
-      useradd ${APP_USER} &>>$LOG_FILE
+SERVICE_SETUP() {
+  print "Fix App User Permissions"
+  chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}
+  statCheck $?
 
-    else
-      print "User already exist  ------>"
-    fi
-    statcheck $?
+  print "Setup SystemD File"
+  sed -i  -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' \
+          -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' \
+          -e 's/MONGO_ENDPOINT/mongodb.roboshop.internal/' \
+          -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.internal/' \
+          -e 's/CARTENDPOINT/cart.roboshop.internal/' \
+          -e 's/DBHOST/mysql.roboshop.internal/' \
+          -e 's/CARTHOST/cart.roboshop.internal/' \
+          -e 's/USERHOST/user.roboshop.internal/' \
+          -e 's/AMQPHOST/rabbitmq.roboshop.internal/' \
+          /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE} && mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service  &>>${LOG_FILE}
+  statCheck $?
 
-print "Download app component"
-  curl -f -s -L -o /tmp/${Calluser}.zip "https://github.com/roboshop-devops-project/${Calluser}/archive/main.zip" &>>$LOG_FILE
-  statcheck $?
+  print "Restart ${COMPONENT} Service"
+  systemctl daemon-reload &>>${LOG_FILE} && systemctl restart ${COMPONENT} &>>${LOG_FILE} && systemctl enable ${COMPONENT} &>>${LOG_FILE}
+  statCheck $?
+}
 
-  print "Cleanup old content"
-  rm -rf /home/${APP_USER}/${Calluser} &>>$LOG_FILE
-  statcheck $?
+NODEJS() {
 
-  print "Extract App content"
-  cd /home/${APP_USER} &>>$LOG_FILE && unzip -o /tmp/${Calluser}.zip &>>$LOG_FILE && mv  ${Calluser}-main  ${Calluser} &>>$LOG_FILE
-  statcheck $?
+  print "Configure Yum repos"
+  curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
+  statCheck $?
 
+  print "Install NodeJS"
+  yum install nodejs gcc-c++ -y &>>${LOG_FILE}
+  statCheck $?
 
+  APP_SETUP
+
+  print "Install App Dependencies"
+  cd /home/${APP_USER}/${COMPONENT} &>>${LOG_FILE} && npm install &>>${LOG_FILE}
+  statCheck $?
+
+  SERVICE_SETUP
 
 }
 
-service_set(){
+MAVEN() {
+  print "Install Maven"
+  yum install maven -y &>>${LOG_FILE}
+  statCheck $?
 
-   print "File permission for user"
-    chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}   &>>$LOG_FILE
-    statcheck $?
+  APP_SETUP
 
+  print "Maven Packaging"
+  cd /home/${APP_USER}/${COMPONENT} &&  mvn clean package &>>${LOG_FILE} && mv target/shipping-1.0.jar shipping.jar &>>${LOG_FILE}
+  statCheck $?
 
-    print "configure MongoBD and redis"
-    sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet/' \
-          -e 's/MONGO_ENDPOINT/mongodb.roboshop.intarnet/' \
-          -e 's/REDIS_ENDPOINT/redis.roboshop.intarnet/' \
-          -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.intarnet/' \
-          -e 's/CARTENDPOINT/cart.roboshop.intarnet/' \
-          -e 's/DBHOST/mysql.roboshop.intarnet/' \
-          /home/roboshop/${Calluser}/systemd.service  &>>$LOG_FILE \
-          && mv /home/roboshop/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
-    statcheck $?
-
- print "start user"
-
-  systemctl daemon-reload &>>$LOG_FILE && systemctl start ${Calluser} &>>$LOG_FILE && systemctl enable ${Calluser} &>>$LOG_FILE
-
-  statcheck $?
-
-
-}
-Nodejs(){
-
-  print "Configure Yum Repo"
-  curl -fsSL "https://rpm.nodesource.com/setup_16.x" | bash - &>>$LOG_FILE
-  statcheck $?
-
-  print "install nodejs"
-  yum install nodejs gcc-c++ -y &>>$LOG_FILE
-  statcheck $?
-
-
-
-
-App_user_funcation
-
-
- print "Install app dependency"
-  cd /home/${APP_USER}/${Calluser}  && npm install &>>$LOG_FILE
-  statcheck $?
-
-
-service_set
-
-
-
-
-
+  SERVICE_SETUP
 
 }
 
-Maven() {
+PYTHON() {
 
-  print "Install mavin"
+  Print "Install Python"
+  yum install python36 gcc python3-devel -y &>>${LOG_FILE}
+  StatCheck $?
 
-   yum install maven -y &>>$LOG_FILE
-statcheck $?
+  APP_SETUP
 
+  Print "Install Python Dependencies"
+  cd /home/${APP_USER}/${COMPONENT} && pip3 install -r requirements.txt &>>${LOG_FILE}
+  StatCheck $?
 
-App_user_funcation
-
-print "Maven Packing"
-
-cd /home/${APP_USER}/${Calluser}  && mvn clean package &>>$LOG_FILE && mv target/shipping-1.0.jar shipping.jar &>>$LOG_FILE
-
-statcheck $?
-
-service_set
-
+  SERVICE_SETUP
 }

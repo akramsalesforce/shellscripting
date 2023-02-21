@@ -1,6 +1,6 @@
 source components/Common.sh
 
-Calluser=cart
+COMPONENT=cart
 
 # calling common function
 

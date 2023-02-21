@@ -1,7 +1,7 @@
 source components/Common.sh
 
-Calluser=shipping
+COMPONENT=shipping
 
 # calling common function
 
-Maven
+MAVEN

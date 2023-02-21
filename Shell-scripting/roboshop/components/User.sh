@@ -1,7 +1,7 @@
 source components/Common.sh
 
-Calluser=user
+COMPONENT=user
 
 # calling common function
 
-Nodejs
+NODEJS
