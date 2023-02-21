@@ -34,7 +34,7 @@ if [ $? -eq 0 ]; then
   print "Uninstall password validate plugins"
   echo 'uninstall plugin validate_password;' >/tmp/pass-validate.sql
 
-  mysql --connect-expired-password -uroot -pRoboShop@1 < tmp/pass-validate.sql &>>$LOG_FILE
+  mysql --connect-expired-password -uroot -pRoboShop@1 </tmp/pass-validate.sql &>>$LOG_FILE
 
 statcheck $?
 
