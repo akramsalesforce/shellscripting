@@ -14,3 +14,5 @@ mysql:
 	bash components/Mysql.sh
 shipping:
 	bash components/Shipping.sh
+RabbitMQ:
+	bash components/RabbitMQ.sh

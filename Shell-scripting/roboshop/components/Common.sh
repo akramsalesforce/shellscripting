@@ -85,8 +85,8 @@ service_set(){
           -e 's/CATALOGUE_ENDPOINT/catalogue.roboshop.intarnet/' \
           -e 's/CARTENDPOINT/cart.roboshop.intarnet/' \
           -e 's/DBHOST/mysql.roboshop.intarnet/' \
-          /home/${APP_USER}/${Calluser}/systemd.service  &>>$LOG_FILE \
-          && mv /home/${APP_USER}/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
+          /home/roboshop/${Calluser}/systemd.service  &>>$LOG_FILE \
+          && mv /home/roboshop/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
     statcheck $?
 
  print "start user"
@@ -133,6 +133,8 @@ Maven() {
 
    yum install maven -y &>>$LOG_FILE
 statcheck $?
+
+
 App_user_funcation
 
 print "Maven Packing"
