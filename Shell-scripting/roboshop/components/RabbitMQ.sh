@@ -8,7 +8,7 @@ statcheck $?
 print "Install go lang and rabbitmg"
 
 
-curl -f -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash &>>$LOG_FILE
+curl -f -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOG_FILE
 
 yum install erlang -y &>>$LOG_FILE
 statcheck $?
