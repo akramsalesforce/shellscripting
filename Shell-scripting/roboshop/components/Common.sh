@@ -41,6 +41,8 @@ rm -f $LOG_FILE
 APP_USER=roboshop
 App_user_funcation(){
 
+
+
    id ${APP_USER} &>>$LOG_FILE
 
     if [ "$?" -ne 0 ]; then
@@ -53,18 +55,19 @@ App_user_funcation(){
     fi
     statcheck $?
 
-  print "cleanup old content"
+print "Download app component"
+  curl -f -s -L -o /tmp/${Calluser}.zip "https://github.com/roboshop-devops-project/${Calluser}/archive/main.zip" &>>$LOG_FILE
+  statcheck $?
+
+  print "Cleanup old content"
   rm -rf /home/${APP_USER}/${Calluser} &>>$LOG_FILE
   statcheck $?
 
-  print "App content"
-  cd /home/${APP_USER} &>>$LOG_FILE && unzip -o /tmp/${Calluser}.zip \
-  &>>$LOG_FILE && mv  ${Calluser}-main  ${Calluser} &>>$LOG_FILE
+  print "Extract App content"
+  cd /home/${APP_USER} &>>$LOG_FILE && unzip -o /tmp/${Calluser}.zip &>>$LOG_FILE && mv  ${Calluser}-main  ${Calluser} &>>$LOG_FILE
   statcheck $?
 
-  print "Install app dependency"
-  cd /home/${APP_USER}/${Calluser}  && npm install &>>$LOG_FILE
-  statcheck $?
+
 
 }
 
@@ -100,13 +103,15 @@ Nodejs(){
   statcheck $?
 
 
+
+
 App_user_funcation
 
 
-
-  print "download app component"
-  curl -f -s -L -o /tmp/${Calluser}.zip "https://github.com/roboshop-devops-project/${Calluser}/archive/main.zip" &>>$LOG_FILE
+ print "Install app dependency"
+  cd /home/${APP_USER}/${Calluser}  && npm install &>>$LOG_FILE
   statcheck $?
+
 
 service_set
 
