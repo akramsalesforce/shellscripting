@@ -51,7 +51,7 @@ cd /tmp  && unzip -o mysql.zip &>>$LOG_FILE
 statcheck $?
 
 print "Load  schema"
-ccd mysql-main &>>$LOG_FILE && mysql -uroot -pRoboShop@1 <shipping.sql &>>$LOG_FILE
+cd mysql-main &>>$LOG_FILE && mysql -uroot -pRoboShop@1 <shipping.sql &>>$LOG_FILE
 statcheck $?
 
 

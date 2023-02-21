@@ -12,3 +12,5 @@ user:
 	bash components/User.sh
 mysql:
 	bash components/Mysql.sh
+shipping:
+	bash components/Shipping.sh
