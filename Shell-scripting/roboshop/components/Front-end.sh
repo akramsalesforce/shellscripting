@@ -29,7 +29,8 @@ print "configuring catalogue "
 for comp in catalogue  user cart ;do
 
 echo -e "updating ${comp}"
-sed -i -e "/${comp}/s/localhost/${comp}.roboshop.intarnet/"  frontend-main/localhost.conf &>>$LOG_FILE
+sed -i -e "/${comp}/s/localhost/${comp}.roboshop.intarnet/" \
+  frontend-main/localhost.conf &>>$LOG_FILE
 statcheck $?
 done
 
