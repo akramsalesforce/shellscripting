@@ -1,28 +1,16 @@
+#!/bin/bash
 
 source components/Common.sh
-print "configure yum repos"
-curl -f -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOG_FILE
-statcheck $?
+
+Print "Configure YUM Repos"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>${LOG_FILE}
+StatCheck $?
+
+Print "Install ErLang & RabbitMQ"
+yum install https://github.com/rabbitmq/erlang-rpm/releases/download/v23.2.6/erlang-23.2.6-1.el7.x86_64.rpm rabbitmq-server -y &>>${LOG_FILE}
+StatCheck $?
 
 
-print "Install go lang and rabbitmg"
-
-
-curl -f -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>>$LOG_FILE
-
-yum install erlang -y &>>$LOG_FILE
-statcheck $?
-
-print "start RabbitMQ service"
-systemctl enable rabbitmq-server  &&  systemctl start rabbitmq-server &>>$LOG_FILE
-statcheck $?
-
-print "create application user"
-
-rabbitmqctl add_user roboshop roboshop123 &>>$LOG_FILE
-                                          statcheck $?
-
-
-
-
-
+Print "Start RabbitMQ Service"
+systemctl enable rabbitmq-server &>>${LOG_FILE} && systemctl start rabbitmq-server &>>${LOG_FILE}
+StatCheck $?
