@@ -1,32 +1,24 @@
+#!/bin/bash
 
-source components/Common.sh
+source components/common.sh
 
-print "setup redis yum repo"
+Print "Setup YUM Repos"
+curl -L https://raw.githubusercontent.com/roboshop-devops-project/redis/main/redis.repo -o /etc/yum.repos.d/redis.repo &>>${LOG_FILE}
+StatCheck $?
 
-curl -f -L "https://raw.githubusercontent.com/roboshop-devops-project/redis/main/redis.repo" -o /etc/yum.repos.d/redis.repo &>>$LOG_FILE
-statcheck $?
+Print "Install Redis"
+yum install redis -y &>>${LOG_FILE}
+StatCheck $?
 
-print "Install redis "
-yum install redis-6.2.9 -y &>>$LOG_FILE
-statcheck $?
-
+Print "Update Redis Config"
 if [ -f /etc/redis.conf ]; then
-  print "updating redis config file"
-  sed -i -e 's/127.0.0.1/0.0.0.0/'  /etc/redis.conf
-
-  else
-    print "file doesn't exit"
-  fi
-statcheck $?
-if [ -f /etc/redis/redis.conf ]; then
-  print "updating redis config file"
+  sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis.conf
+fi
+if [ -f /etc/redis/redis.conf ] ; then
   sed -i -e 's/127.0.0.1/0.0.0.0/' /etc/redis/redis.conf
-  else
-    print "file doesn't exit"
-  fi
-statcheck $?
+fi
+StatCheck $?
 
-print "Starting redis service"
-systemctl enable redis &>>$LOG_FILE && systemctl start redis &>>$LOG_FILE
-statcheck $?
-
+Print "Start Redis Service"
+systemctl enable redis &>>${LOG_FILE} && systemctl start redis &>>${LOG_FILE}
+StatCheck $?

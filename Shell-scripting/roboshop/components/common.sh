@@ -1,6 +1,4 @@
-
-
-statCheck() {
+StatCheck() {
   if [ $1 -eq 0 ]; then
     echo -e "\e[32mSUCCESS\e[0m"
   else
@@ -9,7 +7,7 @@ statCheck() {
   fi
 }
 
-print() {
+Print() {
   echo -e "\n --------------------- $1 ----------------------" &>>$LOG_FILE
   echo -e "\e[36m $1 \e[0m"
 }
@@ -27,29 +25,29 @@ APP_USER=roboshop
 APP_SETUP() {
   id ${APP_USER} &>>${LOG_FILE}
   if [ $? -ne 0 ]; then
-    print "Add Application User"
+    Print "Add Application User"
     useradd ${APP_USER} &>>${LOG_FILE}
-    statCheck $?
+    StatCheck $?
   fi
-  print "Download App Component"
+  Print "Download App Component"
   curl -f -s -L -o /tmp/${COMPONENT}.zip "https://github.com/roboshop-devops-project/${COMPONENT}/archive/main.zip" &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
-  print "CleanUp Old Content"
+  Print "CleanUp Old Content"
   rm -rf /home/${APP_USER}/${COMPONENT} &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
-  print "Extract App Content"
+  Print "Extract App Content"
   cd /home/${APP_USER} &>>${LOG_FILE} && unzip -o /tmp/${COMPONENT}.zip &>>${LOG_FILE} && mv ${COMPONENT}-main ${COMPONENT} &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 }
 
 SERVICE_SETUP() {
-  print "Fix App User Permissions"
+  Print "Fix App User Permissions"
   chown -R ${APP_USER}:${APP_USER} /home/${APP_USER}
-  statCheck $?
+  StatCheck $?
 
-  print "Setup SystemD File"
+  Print "Setup SystemD File"
   sed -i  -e 's/MONGO_DNSNAME/mongodb.roboshop.intarnet/' \
           -e 's/REDIS_ENDPOINT/redis.roboshop.intarnet/' \
           -e 's/MONGO_ENDPOINT/mongodb.roboshop.intarnet/' \
@@ -60,43 +58,43 @@ SERVICE_SETUP() {
           -e 's/USERHOST/user.roboshop.intarnet/' \
           -e 's/AMQPHOST/rabbitmq.roboshop.intarnet/' \
           /home/roboshop/${COMPONENT}/systemd.service &>>${LOG_FILE} && mv /home/roboshop/${COMPONENT}/systemd.service /etc/systemd/system/${COMPONENT}.service  &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
-  print "Restart ${COMPONENT} Service"
+  Print "Restart ${COMPONENT} Service"
   systemctl daemon-reload &>>${LOG_FILE} && systemctl restart ${COMPONENT} &>>${LOG_FILE} && systemctl enable ${COMPONENT} &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 }
 
 NODEJS() {
 
-  print "Configure Yum repos"
+  Print "Configure Yum repos"
   curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
-  print "Install NodeJS"
+  Print "Install NodeJS"
   yum install nodejs gcc-c++ -y &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
   APP_SETUP
 
-  print "Install App Dependencies"
+  Print "Install App Dependencies"
   cd /home/${APP_USER}/${COMPONENT} &>>${LOG_FILE} && npm install &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
   SERVICE_SETUP
 
 }
 
 MAVEN() {
-  print "Install Maven"
+  Print "Install Maven"
   yum install maven -y &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
   APP_SETUP
 
-  print "Maven Packaging"
+  Print "Maven Packaging"
   cd /home/${APP_USER}/${COMPONENT} &&  mvn clean package &>>${LOG_FILE} && mv target/shipping-1.0.jar shipping.jar &>>${LOG_FILE}
-  statCheck $?
+  StatCheck $?
 
   SERVICE_SETUP
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 
 source components/common.sh
-COMPONENT=cart
-## Function
-NODEJS
+COMPONENT=payment
+PYTHON
