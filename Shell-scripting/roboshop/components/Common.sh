@@ -56,6 +56,7 @@ App_user_funcation(){
   print "cleanup old content"
   rm -rf /home/${APP_USER}/${Calluser} &>>$LOG_FILE
   statcheck $?
+
   print "App content"
   cd /home/${APP_USER} &>>$LOG_FILE && unzip -o /tmp/${Calluser}.zip \
   &>>$LOG_FILE && mv  ${Calluser}-main  ${Calluser} &>>$LOG_FILE
