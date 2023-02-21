@@ -26,7 +26,7 @@ statcheck $?
 
 print "configuring catalogue "
 
-for comp in catalogue  user cart ;do
+for comp in catalogue user cart shipping ;do
 
 echo -e "updating ${comp}"
 sed -i -e "/${comp}/s/localhost/${comp}.roboshop.intarnet/" \
