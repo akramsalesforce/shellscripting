@@ -89,6 +89,11 @@ service_set(){
           && mv /home/${APP_USER}/${Calluser}/systemd.service /etc/systemd/system/${Calluser}.service &>>$LOG_FILE
     statcheck $?
 
+ print "start user"
+
+  systemctl daemon-reload &>>$LOG_FILE && systemctl start ${Calluser} &>>$LOG_FILE && systemctl enable ${Calluser} &>>$LOG_FILE
+
+  statcheck $?
 
 
 }
@@ -118,11 +123,6 @@ service_set
 
 
 
-  print "start user"
-
-  systemctl daemon-reload &>>$LOG_FILE && systemctl start ${Calluser} &>>$LOG_FILE && systemctl enable ${Calluser} &>>$LOG_FILE
-
-  statcheck $?
 
 
 }
