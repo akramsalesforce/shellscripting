@@ -22,7 +22,7 @@ print "change default password"
  echo -e "SET Password for 'root'@'localhost' = PASSWORD('RoboShop@1');" >/tmp/rootpass.sql
  DEFULT_ROOT_PASSWD=$( grep 'temporary password' /var/log/mysql.log | awk '{print $NF}')
 
- mysql --connect-expired-password -uroot -p"${DEFULT_ROOT_PASSWD}" < /tmp/rootpass.sql &>>$LOG_FILE
+ mysql --connect-expired-password -uroot -p"${DEFULT_ROOT_PASSWD}" </tmp/rootpass.sql &>>$LOG_FILE
 
 statcheck $?
 fi
