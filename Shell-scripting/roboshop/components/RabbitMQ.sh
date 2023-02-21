@@ -1,5 +1,5 @@
 
-
+source components/Common.sh
 print "configure yum repos"
 curl -f -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>>$LOG_FILE
 statcheck $?
